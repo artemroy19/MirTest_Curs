@@ -1,0 +1,271 @@
+.page {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+}
+
+.toolbar {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search {
+  width: min(420px, 100%);
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  background: #fff;
+  padding: 14px 16px;
+  font-size: 0.98rem;
+}
+
+.createTestButton {
+  min-height: 42px;
+  padding: 10px 16px;
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  display: grid;
+  gap: 18px;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  background: #fff;
+  padding: 24px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cardHeader h3 {
+  margin: 0 0 8px;
+}
+
+.cardHeader p {
+  margin: 0;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.questionsBadge {
+  align-self: flex-start;
+  border-radius: 999px;
+  background: #f8fafc;
+  padding: 8px 12px;
+  color: #475569;
+  font-size: 0.86rem;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: #475569;
+  font-size: 0.92rem;
+}
+
+.meta span {
+  border-radius: 999px;
+  background: #f8fafc;
+  padding: 8px 12px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.assignSummary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: #475569;
+}
+
+.assignSummary span {
+  border-radius: 999px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 8px 12px;
+}
+
+.tabRow {
+  display: flex;
+  gap: 10px;
+  padding: 6px;
+  border-radius: 18px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.tabButton,
+.expandButton {
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  background: #fff;
+  padding: 10px 14px;
+  font: inherit;
+  color: #334155;
+}
+
+.activeTab {
+  border-color: #7c3aed;
+  background: #f5f3ff;
+  color: #6d28d9;
+}
+
+.assignPanel,
+.groupList,
+.studentList,
+.groupStudents {
+  display: grid;
+  gap: 12px;
+}
+
+.assignPanel {
+  min-height: 0;
+}
+
+.groupList,
+.studentList {
+  max-height: min(52vh, 620px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.groupCard {
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  background: #fcfdff;
+  padding: 16px;
+  display: grid;
+  gap: 14px;
+}
+
+.groupHeader {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+}
+
+.groupToggle,
+.studentRow {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.groupMeta {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.groupMeta strong {
+  color: #0f172a;
+  overflow-wrap: anywhere;
+}
+
+.groupMeta span,
+.emptyInline,
+.groupMark {
+  color: #64748b;
+  font-size: 0.92rem;
+}
+
+.groupStudents {
+  margin-top: 4px;
+  padding-top: 14px;
+  border-top: 1px solid #e2e8f0;
+  animation: reveal 0.18s ease-out;
+}
+
+.studentRow {
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: #fff;
+  padding: 12px 14px;
+  justify-content: space-between;
+}
+
+.studentRow span {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.groupMark {
+  font-style: normal;
+  text-align: right;
+  max-width: 220px;
+}
+
+.error {
+  color: #b91c1c;
+}
+
+.success {
+  color: #166534;
+}
+
+.info {
+  color: #64748b;
+}
+
+@media (max-width: 768px) {
+  .toolbar,
+  .cardHeader {
+    flex-direction: column;
+  }
+
+  .groupHeader {
+    grid-template-columns: 1fr;
+  }
+
+  .tabRow {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tabButton,
+  .expandButton {
+    width: 100%;
+  }
+
+  .studentRow {
+    flex-wrap: wrap;
+  }
+
+  .groupMark {
+    max-width: none;
+    width: 100%;
+    text-align: left;
+    padding-left: 30px;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

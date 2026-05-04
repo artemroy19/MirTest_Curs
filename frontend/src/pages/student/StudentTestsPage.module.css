@@ -1,0 +1,36 @@
+.search {
+  width: min(420px, 100%);
+}
+
+.card {
+  display: grid;
+  gap: 20px;
+}
+
+.actionButton {
+  border: none;
+  border-radius: 16px;
+  padding: 14px 18px;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.available {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+}
+
+.attempts_exhausted {
+  background: rgba(148, 163, 184, 0.35);
+  color: #475569;
+}
+
+.deadline_passed {
+  background: #dc2626;
+}
+
+@media (max-width: 720px) {
+  .card {
+    gap: 16px;
+  }
+}

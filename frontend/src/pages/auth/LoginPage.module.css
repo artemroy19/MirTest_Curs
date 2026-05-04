@@ -1,0 +1,89 @@
+.form {
+  display: grid;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.form input,
+.form select {
+  min-height: 52px;
+  border-radius: 16px;
+}
+
+.passwordRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.passwordRow input {
+  flex: 1;
+}
+
+.eyeButton {
+  min-height: 42px;
+  border: 1px solid rgba(124, 58, 237, 0.22);
+  border-radius: 999px;
+  background: #f5f3ff;
+  color: var(--primary-dark);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 8px 16px;
+  white-space: nowrap;
+}
+
+.eyeButton:hover {
+  background: #ede9fe;
+  color: var(--primary);
+}
+
+.form button[type="submit"] {
+  border: none;
+  color: white;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  cursor: pointer;
+}
+
+.footerLinks {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.smallLink {
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.smallLink:hover {
+  color: var(--primary);
+}
+
+.error {
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: rgba(229, 62, 62, 0.08);
+  color: #9b2c2c;
+  font-size: 14px;
+}
+
+.nameRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 640px) {
+  .nameRow,
+  .passwordRow {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .eyeButton {
+    align-self: flex-end;
+  }
+}

@@ -1,0 +1,29 @@
+.footer {
+  width: 100%;
+  background: #f8f9fa;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--muted);
+  text-align: center;
+  min-height: 44px;
+  border-top: 1px solid #edf2f7;
+  font-size: 14px;
+}
+
+.footer p {
+  margin: 0;
+  line-height: 1.35;
+}
+
+.footer strong {
+  color: var(--text-strong);
+}
+
+@media (max-width: 767px) {
+  .footer {
+    padding: 10px 16px;
+  }
+}

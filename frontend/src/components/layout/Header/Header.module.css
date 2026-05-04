@@ -1,0 +1,167 @@
+.header {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 64px;
+  background: var(--surface);
+  border-bottom: 1px solid #edf2f7;
+}
+
+.leftGroup {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.burger span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: var(--text);
+  border-radius: 99px;
+}
+
+.logo {
+  font-size: 20px;
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.desktopNav {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.link {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.active {
+  color: var(--primary);
+}
+
+.rightGroup {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profileButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatarPlaceholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.profileMenu {
+  position: absolute;
+  right: 0;
+  top: 52px;
+  width: 200px;
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: var(--surface-shadow);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.profileMenu button {
+  width: 100%;
+  padding: 14px 16px;
+  text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.profileMenu button:hover {
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.logoutButton {
+  color: var(--danger);
+}
+
+.mobileNavPanel {
+  position: absolute;
+  top: 64px;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  box-shadow: var(--surface-shadow);
+  z-index: 45;
+  padding: 16px 24px 24px;
+}
+
+.mobileNav {
+  display: grid;
+  gap: 10px;
+}
+
+.mobileNavLink {
+  display: block;
+  padding: 12px 14px;
+  border-radius: 14px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.mobileNavLink:hover {
+  background: rgba(59, 130, 246, 0.08);
+}
+
+@media (max-width: 767px) {
+  .burger {
+    display: flex;
+  }
+
+  .desktopNav {
+    display: none;
+  }
+}

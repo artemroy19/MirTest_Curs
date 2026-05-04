@@ -1,0 +1,48 @@
+.toolbar select,
+.essayReview input,
+.essayReview textarea {
+  border-radius: 16px;
+}
+
+.answerCard {
+  border: 1px solid #e2e8f0;
+  border-radius: 22px;
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+}
+
+.answersList {
+  display: grid;
+  gap: 16px;
+}
+
+.answerHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.answerHeader h4,
+.answerHeader p,
+.answerMeta p {
+  margin: 0;
+}
+
+.answerMeta {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.essayReview {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+@media (max-width: 640px) {
+  .answerHeader {
+    flex-direction: column;
+  }
+}
