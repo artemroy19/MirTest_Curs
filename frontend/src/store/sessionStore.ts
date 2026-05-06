@@ -48,7 +48,15 @@ export const useSessionStore = create<SessionState>()(
         })
     }),
     {
-      name: "mirtest-session"
+      name: "mirtest-session",
+      merge: (persistedState, currentState) => {
+        const state = persistedState as Partial<SessionState>;
+        return {
+          ...currentState,
+          ...state,
+          user: state.user ? { ...state.user, avatar: normalizeMediaUrl(state.user.avatar) } : null
+        };
+      }
     }
   )
 );

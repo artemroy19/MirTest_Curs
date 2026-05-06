@@ -1,6 +1,8 @@
 # MirTest
 
-MirTest - учебная платформа для создания, назначения, прохождения и проверки тестов. Проект разделён на Django REST API и React SPA, поддерживает роли `student`, `teacher`, `admin`, банк вопросов, группы, назначения, автоматическую проверку закрытых вопросов и ручную проверку развёрнутых вопросов.
+MirTest - учебная платформа для полного цикла тестирования: преподаватель создаёт группы, наполняет банк вопросов, собирает тесты, назначает их студентам и проверяет развёрнутые ответы; студент вступает в группы, проходит назначенные тесты и смотрит доступные результаты.
+
+Проект разделён на Django REST API и React SPA. Backend хранит пользователей, роли, группы, вопросы, тесты, назначения, попытки и результаты. Frontend предоставляет отдельные интерфейсы для студента и преподавателя, работает с API через JWT и показывает состояния прохождения, проверки и результатов. Для контейнерного запуска подготовлен Docker Compose: PostgreSQL, Django backend на Gunicorn и frontend-контейнер с nginx.
 
 ## Возможности
 
@@ -29,7 +31,8 @@ Backend:
 - Simple JWT
 - SQLite для локальной разработки
 - PostgreSQL через `DATABASE_URL` для production
-- Pillow для аватаров и медиа
+- Pillow для аватаров пользователей
+- Gunicorn для запуска Django в Docker/production
 
 Frontend:
 
@@ -40,7 +43,17 @@ Frontend:
 - Zustand
 - React Router
 - CSS Modules и общие CSS-стили
-- `@dnd-kit` для drag-and-drop в конструкторе тестов
+- `@dnd-kit` для drag-and-drop сортировки вопросов в конструкторе
+
+Инфраструктура:
+
+- Docker и Docker Compose
+- PostgreSQL 16 в отдельном контейнере
+- nginx во frontend-контейнере
+- named volumes для PostgreSQL, аватаров пользователей и static
+- Yandex Cloud VM как описанный сценарий облачного деплоя
+
+Подробное описание стека: [docs/stack.md](docs/stack.md).
 
 ## Структура проекта
 
@@ -48,11 +61,11 @@ Frontend:
 MirTest_curs/
   backend/                 Django API
     apps/
-      accounts/            пользователи, auth, профиль
+      accounts/            пользователи, авторизация, профиль
       groups/              группы и участники
-      questions/           банк вопросов, категории, медиа
+      questions/           банк вопросов и категории
       tests/               тесты, вопросы тестов, назначения
-      attempts/            попытки, ответы, проверка, scoring
+      attempts/            попытки, ответы, проверка, результаты
       common/              общие модели и middleware
     mirtest/               settings, urls, wsgi
     manage.py
@@ -74,6 +87,16 @@ MirTest_curs/
 ```
 
 ## Быстрый запуск
+
+### Docker
+
+Docker-запуск поднимает PostgreSQL, Django backend и nginx frontend.
+
+```bash
+cp .env.docker.example .env
+docker compose up --build
+```
+
 
 ### Backend
 
@@ -115,6 +138,5 @@ Backend использует `backend/.env`:
 Frontend использует `frontend/.env`:
 
 - `VITE_API_URL` - базовый URL API, по умолчанию `http://localhost:8000/api`;
-
 
 MirTest Created by Roytman Artem.

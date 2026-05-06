@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.questions.models import MediaAsset, Question, QuestionBankCategory
+from apps.questions.models import Question, QuestionBankCategory
 
 
 class QuestionBankCategorySerializer(serializers.ModelSerializer):
@@ -24,53 +24,6 @@ class QuestionBankCategorySerializer(serializers.ModelSerializer):
         return value
 
 
-class MediaAssetSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MediaAsset
-        fields = ["id", "owner", "media_type", "file", "original_name", "size_bytes", "created_at"]
-        read_only_fields = ["id", "owner", "original_name", "size_bytes", "created_at"]
-
-    def validate(self, attrs):
-        uploaded_file = attrs.get("file")
-        media_type = attrs.get("media_type")
-        if not uploaded_file or not media_type:
-            return attrs
-
-        content_type = (uploaded_file.content_type or "").lower()
-        name = (uploaded_file.name or "").lower()
-
-        limits = {
-            MediaAsset.MediaType.IMAGE: 5 * 1024 * 1024,
-            MediaAsset.MediaType.AUDIO: 20 * 1024 * 1024,
-            MediaAsset.MediaType.VIDEO: 100 * 1024 * 1024,
-        }
-        allowed_content_types = {
-            MediaAsset.MediaType.IMAGE: {"image/jpeg", "image/png", "image/webp", "image/gif"},
-            MediaAsset.MediaType.AUDIO: {"audio/mpeg", "audio/aac", "audio/ogg"},
-            MediaAsset.MediaType.VIDEO: {"video/mp4", "video/webm"},
-        }
-        allowed_ext = {
-            MediaAsset.MediaType.IMAGE: {".jpg", ".jpeg", ".png", ".webp", ".gif"},
-            MediaAsset.MediaType.AUDIO: {".mp3", ".aac", ".ogg"},
-            MediaAsset.MediaType.VIDEO: {".mp4", ".webm"},
-        }
-
-        if uploaded_file.size > limits[media_type]:
-            raise serializers.ValidationError("Файл превышает допустимый размер.")
-
-        if content_type not in allowed_content_types[media_type] and not any(name.endswith(ext) for ext in allowed_ext[media_type]):
-            raise serializers.ValidationError("Недопустимый формат файла для выбранного типа медиа.")
-
-        return attrs
-
-    def create(self, validated_data):
-        f = validated_data["file"]
-        validated_data["owner"] = self.context["request"].user
-        validated_data["original_name"] = f.name
-        validated_data["size_bytes"] = f.size
-        return super().create(validated_data)
-
-
 class QuestionSerializer(serializers.ModelSerializer):
     category = QuestionBankCategorySerializer(read_only=True)
     category_id = serializers.PrimaryKeyRelatedField(
@@ -79,14 +32,6 @@ class QuestionSerializer(serializers.ModelSerializer):
         allow_null=True,
         required=False,
         write_only=True,
-    )
-    media_assets = MediaAssetSerializer(many=True, read_only=True)
-    media_asset_ids = serializers.PrimaryKeyRelatedField(
-        queryset=MediaAsset.objects.all(),
-        many=True,
-        write_only=True,
-        required=False,
-        source="media_assets",
     )
 
     class Meta:
@@ -102,8 +47,6 @@ class QuestionSerializer(serializers.ModelSerializer):
             "base_points",
             "payload",
             "is_bank_question",
-            "media_assets",
-            "media_asset_ids",
             "created_at",
             "updated_at",
         ]
@@ -116,14 +59,6 @@ class QuestionSerializer(serializers.ModelSerializer):
         if request and not request.user.is_superuser and value.owner_id != request.user.id:
             raise serializers.ValidationError("Категория должна принадлежать вам.")
         return value
-
-    def validate_media_assets(self, media_assets):
-        request = self.context.get("request")
-        if request and not request.user.is_superuser:
-            invalid = [asset.id for asset in media_assets if asset.owner_id != request.user.id]
-            if invalid:
-                raise serializers.ValidationError(f"Недопустимые media asset ids: {invalid}")
-        return media_assets
 
     def create(self, validated_data):
         validated_data["owner"] = self.context["request"].user

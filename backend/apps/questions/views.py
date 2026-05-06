@@ -1,8 +1,8 @@
 from rest_framework import filters, viewsets
 from rest_framework.exceptions import PermissionDenied
 
-from apps.questions.models import MediaAsset, Question, QuestionBankCategory
-from apps.questions.serializers import MediaAssetSerializer, QuestionBankCategorySerializer, QuestionSerializer
+from apps.questions.models import Question, QuestionBankCategory
+from apps.questions.serializers import QuestionBankCategorySerializer, QuestionSerializer
 
 
 class OwnerScopedMixin:
@@ -29,26 +29,15 @@ class QuestionBankCategoryViewSet(OwnerScopedMixin, viewsets.ModelViewSet):
         serializer.save(owner=self.request.user)
 
 
-class MediaAssetViewSet(OwnerScopedMixin, viewsets.ModelViewSet):
-    queryset = MediaAsset.objects.all().order_by("-created_at")
-    serializer_class = MediaAssetSerializer
-
-    def get_queryset(self):
-        qs = MediaAsset.objects.all().order_by("-created_at")
-        if self._is_admin():
-            return qs
-        return qs.filter(owner=self.request.user)
-
-
 class QuestionViewSet(OwnerScopedMixin, viewsets.ModelViewSet):
-    queryset = Question.objects.select_related("category", "owner").prefetch_related("media_assets").all().order_by("-updated_at")
+    queryset = Question.objects.select_related("category", "owner").all().order_by("-updated_at")
     serializer_class = QuestionSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ["title", "prompt"]
     ordering_fields = ["created_at", "updated_at", "base_points"]
 
     def get_queryset(self):
-        qs = Question.objects.select_related("category", "owner").prefetch_related("media_assets").all().order_by("-updated_at")
+        qs = Question.objects.select_related("category", "owner").all().order_by("-updated_at")
 
         if not self._is_admin():
             qs = qs.filter(owner=self.request.user)

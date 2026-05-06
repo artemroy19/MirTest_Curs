@@ -17,7 +17,7 @@ from apps.accounts.views import (
 )
 from apps.attempts.views import AttemptViewSet, EssayReviewQueueView, EssayReviewSummaryView
 from apps.groups.views import GroupMembershipViewSet, GroupViewSet
-from apps.questions.views import MediaAssetViewSet, QuestionBankCategoryViewSet, QuestionViewSet
+from apps.questions.views import QuestionBankCategoryViewSet, QuestionViewSet
 from apps.tests.views import TestAssignmentViewSet, TestViewSet
 
 
@@ -26,7 +26,6 @@ router.register("users", UserViewSet, basename="user")
 router.register("groups", GroupViewSet, basename="group")
 router.register("group-memberships", GroupMembershipViewSet, basename="group-membership")
 router.register("categories", QuestionBankCategoryViewSet, basename="category")
-router.register("media-assets", MediaAssetViewSet, basename="media-asset")
 router.register("questions", QuestionViewSet, basename="question")
 router.register("tests", TestViewSet, basename="test")
 router.register("assignments", TestAssignmentViewSet, basename="assignment")

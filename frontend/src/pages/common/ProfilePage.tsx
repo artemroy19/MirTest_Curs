@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 
 import { apiClient } from "../../api/client";
 import { formatError } from "../../utils/formatError";
+import { normalizeMediaUrl } from "../../utils/media";
 import { useSessionStore } from "../../store/sessionStore";
 import { SectionHeader } from "../../components/layout/SectionHeader/SectionHeader";
 import { ChangePasswordModal } from "../../components/profile/ChangePasswordModal/ChangePasswordModal";
@@ -47,7 +48,7 @@ export function ProfilePage() {
       const response = await apiClient.patch(`/auth/profile/`, formData);
       setMessage("Профиль сохранен.");
       setSelectedAvatar(null);
-      setPreviewUrl(response.data.avatar || null);
+      setPreviewUrl(normalizeMediaUrl(response.data.avatar));
       if (user && tokens) {
         setSession({
           user: response.data,
