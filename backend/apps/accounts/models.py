@@ -18,5 +18,8 @@ class User(AbstractUser, TimeStampedModel):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
 
+    class Meta(AbstractUser.Meta):
+        db_table = "users"
+
     def __str__(self) -> str:
         return f"{self.email} ({self.role})"

@@ -10,6 +10,9 @@ class QuestionBankCategory(TimeStampedModel):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
+    class Meta:
+        db_table = "question_categories"
+
     def __str__(self) -> str:
         return self.title
 
@@ -29,6 +32,9 @@ class Question(TimeStampedModel):
     base_points = models.DecimalField(max_digits=6, decimal_places=2, default=1)
     payload = models.JSONField(default=dict)
     is_bank_question = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = "questions"
 
     def __str__(self) -> str:
         return self.title

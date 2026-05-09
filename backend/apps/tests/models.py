@@ -20,6 +20,9 @@ class Test(TimeStampedModel):
     result_visibility = models.CharField(max_length=32, choices=ResultVisibility.choices, default=ResultVisibility.SCORE_ONLY)
     is_frozen = models.BooleanField(default=False)
 
+    class Meta:
+        db_table = "tests"
+
     def __str__(self) -> str:
         return self.title
 
@@ -31,6 +34,7 @@ class TestQuestion(TimeStampedModel):
     overridden_points = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
 
     class Meta:
+        db_table = "test_questions"
         unique_together = ("test", "question")
         ordering = ["order", "id"]
 
@@ -42,6 +46,7 @@ class TestAssignment(TimeStampedModel):
     assigned_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="created_assignments")
 
     class Meta:
+        db_table = "test_assignments"
         constraints = [
             models.CheckConstraint(
                 check=models.Q(group__isnull=False) | models.Q(student__isnull=False),

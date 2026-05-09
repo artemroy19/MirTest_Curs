@@ -23,6 +23,7 @@ class TestAttempt(TimeStampedModel):
     essay_review_pending = models.BooleanField(default=False)
 
     class Meta:
+        db_table = "test_attempts"
         unique_together = ("test", "student", "attempt_number")
 
 
@@ -35,3 +36,6 @@ class AttemptAnswer(TimeStampedModel):
     manual_points = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     teacher_comment = models.TextField(blank=True)
     reviewed_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        db_table = "attempt_answers"

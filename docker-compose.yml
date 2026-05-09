@@ -4,15 +4,15 @@ services:
     container_name: mirtest-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-mirtest}
-      POSTGRES_USER: ${POSTGRES_USER:-mirtest}
+      POSTGRES_DB: mirtest
+      POSTGRES_USER: mirtest
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mirtest_password}
     ports:
-      - "${POSTGRES_HOST_PORT:-5433}:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mirtest} -d ${POSTGRES_DB:-mirtest}"]
+      test: ["CMD-SHELL", "pg_isready -U mirtest -d mirtest"]
       interval: 5s
       timeout: 5s
       retries: 12
@@ -24,20 +24,18 @@ services:
     restart: unless-stopped
     environment:
       SECRET_KEY: ${SECRET_KEY:-change-me-docker-secret-key}
-      DEBUG: ${DJANGO_DEBUG:-False}
+      DEBUG: "False"
       ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,127.0.0.1,backend}
-      DATABASE_URL: postgres://${POSTGRES_USER:-mirtest}:${POSTGRES_PASSWORD:-mirtest_password}@postgres:5432/${POSTGRES_DB:-mirtest}
+      DATABASE_URL: postgres://mirtest:${POSTGRES_PASSWORD:-mirtest_password}@postgres:5432/mirtest
       POSTGRES_HOST: postgres
       POSTGRES_PORT: 5432
-      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:8080,http://127.0.0.1:8080}
-      CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS:-http://localhost:8080,http://127.0.0.1:8080}
-      JWT_ACCESS_TOKEN_LIFETIME_MINUTES: ${JWT_ACCESS_TOKEN_LIFETIME_MINUTES:-30}
-      JWT_REFRESH_TOKEN_LIFETIME_DAYS: ${JWT_REFRESH_TOKEN_LIFETIME_DAYS:-7}
+      CORS_ALLOWED_ORIGINS: ${APP_ORIGINS:-http://localhost:8080,http://127.0.0.1:8080}
+      CSRF_TRUSTED_ORIGINS: ${APP_ORIGINS:-http://localhost:8080,http://127.0.0.1:8080}
     volumes:
       - backend_media:/app/media
       - backend_static:/app/staticfiles
     ports:
-      - "${BACKEND_HOST_PORT:-8000}:8000"
+      - "8000:8000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -46,12 +44,12 @@ services:
     build:
       context: ./frontend
       args:
-        VITE_API_URL: ${VITE_API_URL:-/api}
-        VITE_APP_TITLE: ${VITE_APP_TITLE:-MirTest}
+        VITE_API_URL: /api
+        VITE_APP_TITLE: MirTest
     container_name: mirtest-frontend
     restart: unless-stopped
     ports:
-      - "${FRONTEND_HOST_PORT:-8080}:80"
+      - "8080:80"
     volumes:
       - backend_media:/usr/share/nginx/media:ro
       - backend_static:/usr/share/nginx/static:ro

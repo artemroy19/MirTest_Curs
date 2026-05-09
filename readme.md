@@ -53,8 +53,6 @@ Frontend:
 - named volumes для PostgreSQL, аватаров пользователей и static
 - Yandex Cloud VM как описанный сценарий облачного деплоя
 
-Подробное описание стека: [docs/stack.md](docs/stack.md).
-
 ## Структура проекта
 
 ```text
@@ -82,7 +80,6 @@ MirTest_curs/
       styles/              глобальные стили
       types/               общие TS-типы
       utils/               утилиты
-  docs/                    подробная документация
   readme.md
 ```
 
@@ -93,10 +90,8 @@ MirTest_curs/
 Docker-запуск поднимает PostgreSQL, Django backend и nginx frontend.
 
 ```bash
-cp .env.docker.example .env
 docker compose up --build
 ```
-
 
 ### Backend
 

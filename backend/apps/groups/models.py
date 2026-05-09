@@ -1,4 +1,3 @@
-import secrets
 import uuid
 
 from django.conf import settings
@@ -19,6 +18,9 @@ class Group(TimeStampedModel):
     description = models.TextField(blank=True)
     invite_code = models.CharField(max_length=32, unique=True, default=generate_invite_code)
 
+    class Meta:
+        db_table = "student_groups"
+
     def __str__(self) -> str:
         return self.title
 
@@ -29,6 +31,7 @@ class GroupMembership(TimeStampedModel):
     joined_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        db_table = "group_memberships"
         unique_together = ("group", "student")
 
     def __str__(self) -> str:
