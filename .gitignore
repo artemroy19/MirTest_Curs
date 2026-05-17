@@ -18,6 +18,8 @@ __pycache__/
 *.pyd
 .Python
 .pytest_cache/
+.hypothesis/
+backend/.hypothesis/
 .mypy_cache/
 .ruff_cache/
 .coverage

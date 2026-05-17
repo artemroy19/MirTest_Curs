@@ -75,9 +75,14 @@ class QuestionSerializer(serializers.ModelSerializer):
         if not qtype:
             return attrs
 
+        if not isinstance(payload, dict):
+            raise serializers.ValidationError({"payload": "Payload должен быть JSON-объектом."})
+
         if qtype == Question.QuestionType.SINGLE:
             options = payload.get("options", [])
             correct = payload.get("correct_option")
+            if not isinstance(options, list):
+                raise serializers.ValidationError({"payload": "Для single поле options должно быть списком."})
             option_ids = {opt.get("id") for opt in options if isinstance(opt, dict)}
             if len(options) < 2:
                 raise serializers.ValidationError({"payload": "Для single нужно минимум 2 варианта."})
@@ -87,6 +92,8 @@ class QuestionSerializer(serializers.ModelSerializer):
         elif qtype == Question.QuestionType.MULTIPLE:
             options = payload.get("options", [])
             correct = payload.get("correct_options", [])
+            if not isinstance(options, list):
+                raise serializers.ValidationError({"payload": "Для multiple поле options должно быть списком."})
             option_ids = {opt.get("id") for opt in options if isinstance(opt, dict)}
             if len(options) < 2:
                 raise serializers.ValidationError({"payload": "Для multiple нужно минимум 2 варианта."})
