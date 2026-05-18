@@ -141,6 +141,23 @@ python manage.py test
 - `backend/apps/attempts/tests.py`
 - `backend/apps/attempts/test_fuzz.py`
 
+Последний проверочный запуск: `62 tests OK`.
+
+## CI
+
+В проекте настроен GitHub Actions workflow:
+
+```text
+.github/workflows/ci.yml
+```
+
+CI запускается при `push` и `pull request` в ветку `main`.
+
+Проверки:
+
+- `backend-tests` - поднимает PostgreSQL 16 как service container, устанавливает Python 3.11 и зависимости из `backend/requirements.txt`, затем запускает `python manage.py test`. В этот набор входят обычные API-тесты и fuzz-тесты на Hypothesis.
+- `frontend-build` - устанавливает Node.js 20, выполняет `npm ci` и `npm run build` в папке `frontend`.
+- `docker-build` - запускается только после успешных backend/frontend проверок и выполняет `docker compose build`.
 
 ## Переменные окружения
 
